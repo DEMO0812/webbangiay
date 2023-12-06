@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Insert title here</title>
+    <div th:replace="~{/common/user/head}"></div>
+</head>
+
+<body ng-app="shopping-cart-app" ng-controller="shopping-cart-ctrl">
+    <div class="pos_page">
+        <div class="container">
+            <!--pos page inner-->
+            <div class="pos_page_inner">
+
+
+                <div th:replace="~{/common/user/header}"></div>
+
+
+                <!--breadcrumbs area start-->
+                <div class="breadcrumbs_area">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="breadcrumb_content">
+                                <ul>
+                                    <li><a href="#">home</a></li>
+                                    <li><i class="fa fa-angle-right"></i></li>
+                                    <li>Thanh Toán</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--breadcrumbs area end-->
+
+
+                <!--Checkout page section-->
+                <div class="Checkout_section">
+
+                    <div class="checkout_form">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <form action="#">
+                                    <h3>Billing Details</h3>
+                                    <div class="row">
+
+                                        <div class="col-lg-6 mb-30">
+                                            <label>Name<span>*</span></label>
+
+                                            <div class="form-control" id="username">[[${#request.remoteUser}]]</div>
+                                        </div>
+                                        <div class="col-lg-6 mb-30">
+                                            <label>Create Date <span>*</span></label>
+                                            <input type="text" class="form-control" value="{{order.createDate | date: 'dd-MM-yyyy'}}" readonly>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="order-notes">
+                                                <label for="order_note">Order Notes</label>
+                                                <textarea ng-model="order.address" id="address" name="address" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <div class="col-lg-6 col-md-6">
+                                <form action="#">
+                                    <h3>Your order</h3>
+                                    <div class="order_table table-responsive mb-30">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in cart.items">
+                                                    <td>{{item.name}} <strong> × {{item.qty}}</strong></td>
+                                                    <td>{{item.qty * item.price | number:2 }} đ</td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Tổng phụ</th>
+                                                    <td ng-bind="(cart.amount | number:2) +' đ'"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Giá Ship</th>
+                                                    <td><strong>15.0 đ</strong></td>
+                                                </tr>
+                                                <tr class="order_total">
+                                                    <th>Tổng thành tiền</th>
+                                                    <td><strong ng-bind="(cart.amount + 15.0  | number:2) +' đ'"></strong></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="payment_method">
+
+                                        <div class="panel-default">
+                                            <input id="payment_defult" name="check_method" type="radio" data-target="createp_account">
+                                            <label for="payment_defult" data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">PayPal
+												<img src="/user/assets/img/visha/papyel.png" alt="">
+											</label>
+
+                                            <!-- <div id="collapsedefult" class="collapse one" data-parent="#accordion">
+                                            <div class="card-body1">
+                                                <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                                            </div>
+                                        </div> -->
+                                        </div>
+                                        <div class="order_button">
+                                            <button ng-click="order.purchase()" type="submit">Xác nhận hoàn tất đơn hàng</button>
+                                        </div>
+                                    </div>
+                                </form> <br>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Checkout page section end-->
+
+
+
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/common/user/js}"></div>
+    <div th:replace="~{/common/user/footer}"></div>
+</body>
+
+</html>
